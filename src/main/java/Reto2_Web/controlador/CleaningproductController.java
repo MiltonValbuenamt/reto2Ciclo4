@@ -4,8 +4,8 @@
  */
 package Reto2_Web.controlador;
 
-import Reto2_Web.servicio.SupplementsService;
-import Reto2_Web.modelo.Supplements;
+import Reto2_Web.servicio.CleaningproductServicio;
+import Reto2_Web.modelo.Cleaningproduct;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,38 +27,45 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Johan
  */
 @RestController
-@RequestMapping("/api/supplements")
-@CrossOrigin("*")
-public class SupplementsController {
+@RequestMapping("/api/Cleaningproduct")
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+
+public class CleaningproductController {
        @Autowired
-    private SupplementsService accessoryService;
+    private CleaningproductServicio accessoryService;
        
      @GetMapping("/all")
-    public List<Supplements> getAll() {
+    public List<Cleaningproduct> getAll() {
         return accessoryService.getAll();
     }
     
     @GetMapping("/{reference}")
-    public Optional<Supplements> getClothe(@PathVariable("reference") String reference) {
-        return accessoryService.getClothe(reference);
+    public Optional<Cleaningproduct> getClothe(@PathVariable("id") Integer id) {
+        return accessoryService.getClothe(id);
     }
 
     @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
-    public Supplements create(@RequestBody Supplements gadget) {
+    public Cleaningproduct create(@RequestBody Cleaningproduct gadget) {
         return accessoryService.create(gadget);
     }
     
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Supplements update(@RequestBody Supplements gadget) {
+    public Cleaningproduct update(@RequestBody Cleaningproduct gadget) {
         return accessoryService.update(gadget);
     }
 
-    @DeleteMapping("/{reference}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean delete(@PathVariable("reference") String reference) {
-        return accessoryService.delete(reference);
-    } 
+    /**
+     *
+     * @param id
+     * @return
+     */
     
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public boolean delete(@PathVariable("id") Integer id) {
+        return accessoryService.delete(id);
+    }
+   
 }

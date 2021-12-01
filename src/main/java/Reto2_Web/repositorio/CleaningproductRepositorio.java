@@ -4,38 +4,38 @@
  */
 package Reto2_Web.repositorio;
 
-import Reto2_Web.interfaces.InterfaceSupplements;
-import Reto2_Web.modelo.Supplements;
+import Reto2_Web.modelo.Cleaningproduct;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import Reto2_Web.interfaces.InterfaceCleaningproduct;
 
 /**
  *
  * @author Johan
  */
 @Repository
-public class SupplementsRepositorio {
+public class CleaningproductRepositorio {
     @Autowired
-    private InterfaceSupplements repository;
+    private InterfaceCleaningproduct repository;
 
-    public List<Supplements> getAll() {
+    public List<Cleaningproduct> getAll() {
         return repository.findAll();
     }
 
-    public Optional<Supplements> getClothe(String reference) {
-        return repository.findById(reference);
+    public Optional<Cleaningproduct> getClothe(Integer id) {
+        return repository.findById(id);
     }
-    public Supplements create(Supplements clothe) {
+    public Cleaningproduct create(Cleaningproduct clothe) {
         return repository.save(clothe);
     }
 
-    public void update(Supplements clothe) {
+    public void update(Cleaningproduct clothe) {
         repository.save(clothe);
     }
     
-    public void delete(Supplements clothe) {
+    public void delete(Cleaningproduct clothe) {
         repository.delete(clothe);
     }
 }

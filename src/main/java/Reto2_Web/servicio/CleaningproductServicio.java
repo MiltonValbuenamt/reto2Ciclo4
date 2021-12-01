@@ -4,8 +4,8 @@
  */
 package Reto2_Web.servicio;
 
-import Reto2_Web.modelo.Supplements;
-import Reto2_Web.repositorio.SupplementsRepositorio;
+import Reto2_Web.modelo.Cleaningproduct;
+import Reto2_Web.repositorio.CleaningproductRepositorio;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,33 +13,38 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author Johan
- */
+ * @author Milton V
+ *  */
 @Service
-public class SupplementsService {
+public class CleaningproductServicio {
      @Autowired
-    private SupplementsRepositorio clotheRepository;
+    private CleaningproductRepositorio clotheRepository;
 
-    public List<Supplements> getAll() {
+    public List<Cleaningproduct> getAll() {
         return clotheRepository.getAll();
     }
 
-   public Optional<Supplements> getClothe(String reference) {
-        return clotheRepository.getClothe(reference);
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public Optional<Cleaningproduct> getClothe(Integer id) {
+        return clotheRepository.getClothe(id);
     }
 
-    public Supplements create(Supplements accesory) {
-        if (accesory.getReference() == null) {
+    public Cleaningproduct create(Cleaningproduct accesory) {
+        if (accesory.getId() == null) {
             return accesory;
         } else {
             return clotheRepository.create(accesory);
         }
     }
 
-    public Supplements update(Supplements accesory) {
+    public Cleaningproduct update(Cleaningproduct accesory) {
 
-        if (accesory.getReference() != null) {
-            Optional<Supplements> accesoryDb = clotheRepository.getClothe(accesory.getReference());
+        if (accesory.getId() != null) {
+            Optional<Cleaningproduct> accesoryDb = clotheRepository.getClothe(accesory.getId());
             if (!accesoryDb.isEmpty()) {
                 
                 if (accesory.getBrand()!= null) {
@@ -50,36 +55,43 @@ public class SupplementsService {
                     accesoryDb.get().setCategory(accesory.getCategory());
                 }
                 
+                if (accesory.getName() != null) {
+                    accesoryDb.get().setDescription(accesory.getName());
+                }
+                
                 if (accesory.getDescription() != null) {
                     accesoryDb.get().setDescription(accesory.getDescription());
                 }
+                
                 if (accesory.getPrice() != 0.0) {
-                    accesoryDb.get().setPrice(accesory.getPrice());
+                    accesoryDb.get().setPrice(accesory.getPrice());                
                 }
+                
                 if (accesory.getQuantity() != 0) {
                     accesoryDb.get().setQuantity(accesory.getQuantity());
                 }
+                
                 if (accesory.getPhotography() != null) {
-                    accesoryDb.get().setPhotography(accesory.getPhotography());
+                        accesoryDb.get().setPhotography(accesory.getPhotography()); 
                 }
                 accesoryDb.get().setAvailability(accesory.isAvailability());
                 clotheRepository.update(accesoryDb.get());
                 return accesoryDb.get();
-            } else {
-                return accesory;
+                }
             }
-        } else {
-            return accesory;
-        }
-    }
+        return accesory;                
+   } 
+    
+    
+        
 
-    public boolean delete(String reference) {
-        Boolean aBoolean = getClothe(reference).map(accesory -> {
-            clotheRepository.delete(accesory);
-            return true;
+    public boolean delete(Integer id) {
+        Boolean aBoolean = getClothe(id).map(accesory -> {
+        clotheRepository.delete(accesory);
+        return true;
         }).orElse(false);
         return aBoolean;
-    }
-    
-    
+     }
+
+            
 }
